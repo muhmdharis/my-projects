@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Orders</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+            header {
+                background-color: #333;
+                color: #fff;
+                padding: 15px 0;
+                display: flex;
+                justify-content: space-between;
+                justify-content: flex-end;
+                align-items: center;
+            }
+            nav ul {
+                list-style: none;
+                display: flex;
+            }
+    
+            nav a {
+                color: #fff;
+                text-decoration: none;
+                margin: 0 15px;
+                font-weight: 500;
+            }
+            nav a:hover{
+                color: red;
+            }
+            footer {
+                background-color: #333;
+                color: #fff;
+                padding: 10px 0;
+                text-align: center;
+                margin-top: 50px;
+            }
+    
+            .contact-info, .quick-links, .social-media {
+                margin-bottom: 20px;
+            }
+    
+            .quick-links ul {
+                list-style: none;
+            }
+    
+            .quick-links a {
+                color: #fff;
+                text-decoration: none;
+                margin: 0 15px;
+            }
+        </style>
+    </head>
+    <body class="font-sans bg-gray-100">
+        
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if u.first_name == 'admin'  %}
+                    <li><a href="{% url 'verify' %}">Verify</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'buy' %}">Buy</a></li>
+                    {% if u.first_name == 'shop' %}
+                    <li><a href="{% url 'sell' %}">Sell</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                    <li><a href="{% url 'chat' %}">Help</a></li>
+                    {% if u.username == 'admin' %}
+                    <li><a href="{% url 'ord'  %}">Track Orders</a> </li>
+                    <li><a href="{% url 'de' %}">Delete</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="max-w-screen-xl mx-auto p-8">
+            <h2 class="text-2xl font-semibold mb-4">Orders So Far</h2>
+    
+            <div class="bg-white p-4 rounded-lg shadow-md">
+
+                {% if n %}
+                <ul>
+                    {% for order_item in n %}
+                        <li class="text-gray-800 mb-2">
+                            Order ID: {{ order_item.id }}<br>
+                            Name: {{ order_item.name }}<br>
+                            Model: {{ order_item.model }}<br>
+                            Email: {{ order_item.email}}<br>
+                            Location: {{ order_item.user.last_name }}<br>
+                            Total Amount: {{ order_item.discription }}<br>
+                            <!-- Add more fields as needed -->
+                        </li>
+                        <hr class="my-2">
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p class="text-gray-600">Their is no orders.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <footer>
+            <div class="contact-info">
+                <p>Email: electro@gmail.com</p>
+                <p>Phone: +91 123-456-7890</p>
+                <p>Address: Thiruvananthapuram, Kerala , India</p>
+            </div>
+            <div class="quick-links">
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="social-media">
+                <!-- Add social media icons and links here -->
+            </div>
+        </footer>
+
+        <script src="" async defer></script>
+    </body>
+</html>

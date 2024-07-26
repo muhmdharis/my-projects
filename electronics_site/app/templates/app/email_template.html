@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Purchase Confirmation</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                padding: 20px;
+                border: 1px solid #dddddd;
+            }
+
+            .header {
+                text-align: center;
+                padding: 20px 0;
+                background-color: #333;
+                color: white;
+            }
+
+            .header h1 {
+                margin: 0;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .content h2 {
+                color: #333;
+            }
+
+            .item {
+                display: flex;
+                margin-bottom: 20px;
+            }
+
+            .item img {
+                max-width: 150px;
+                margin-right: 20px;
+            }
+
+            .item-details {
+                flex: 1;
+            }
+
+            .item-details h3 {
+                margin: 0;
+            }
+
+            .footer {
+                text-align: center;
+                padding: 10px 0;
+                color: #999999;
+                font-size: 12px;
+            }
+
+            .footer a {
+                color: #333;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Thank You for Your Purchase!</h1>
+            </div>
+            <div class="content">
+                <h2>Ordered Successfully</h2>
+                <p>Dear {{ name }},</p>
+                <p>
+                    Thank you for your purchase! We are excited to let you know that your order has been successfully
+                    processed. Here are the details of your purchase:
+                </p>
+                <div class="item">
+                    <div class="item-details">
+                        <h3>{{ item_name }}</h3>
+                        <p>Model: {{ item_model }}</p>
+                        <p>Price: {{ item_price }}</p>
+                        <p>Time: {{ time }}</p>
+                    </div>
+                </div>
+                <p>
+                    We hope you enjoy your new purchase. If you have any questions or need further assistance, please do
+                    not hesitate to contact us.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

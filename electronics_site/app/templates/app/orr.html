@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Shipping Details</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body, h1, h2, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 0.8cm;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        nav a:hover{
+            color: red;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-info, .quick-links, .social-media {
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if u.first_name == 'admin'  %}
+                <li><a href="{% url 'verify' %}">Verify</a></li>
+                {% endif %}
+                <li><a href="{% url 'buy' %}">Buy</a></li>
+                {% if u.first_name == 'shop' %}
+                <li>><a href="{% url 'sell' %}">Sell</a></li>
+                {% endif %}
+                <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                <li><a href="{% url 'chat' %}">Help</a></li>
+                {% if u.username == 'admin' %}
+                <li><a href="{% url 'ord'  %}">Track Orders</a> </li>
+                <li><a href="{% url 'de' %}">Delete</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Exchange Form -->
+    <div class="w-1/2 pl-8">
+        <h2 class="text-2xl font-semibold mb-4">Shipping Information</h2>
+        <form action="{% url 'order' n %}" method="POST" class="bg-white p-8 rounded-lg shadow-md" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="n" class="block text-sm font-medium text-gray-600 mb-2">Full Name:</label>
+                <input type="text" id="n" name="n" placeholder="name"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="num" class="block text-sm font-medium text-gray-600 mb-2">Phone Number:</label>
+                <input type="number" id="num" name="num" placeholder="number"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="p" class="block text-sm font-medium text-gray-600 mb-2">Pincode:</label>
+                <input type="number" id="p" name="p" placeholder="pincode"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="s" class="block text-sm font-medium text-gray-600 mb-2">State:</label>
+                <input type="text" id="s" name="s" placeholder="state"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="c" class="block text-sm font-medium text-gray-600 mb-2">City:</label>
+                <input type="text" id="c" name="c" placeholder="city"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="a" class="block text-sm font-medium text-gray-600 mb-2">Address:</label>
+                <textarea id="a" name="a" placeholder="address"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="pay" class="block text-sm font-medium text-gray-600 mb-2">Payment Option:</label>
+                <select class="bg-blue-500 text-white py-2 px-4 rounded-md border rounded p-2 hover:bg-blue-600 focus:outline-none">
+                    <option>Cash on delivery</option>
+                </select> <br> <br>
+                {% if flag == 0 %}
+                    {% if user.premiumState == 'False' %}
+                    for free delivery take premium <br><br>
+                    <a  class="bg-blue-500 text-white py-2 px-4 rounded-md border rounded p-2 hover:bg-blue-600 focus:outline-none" href="{% url 'premium' id=user.id %}">Get Premium </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+                <div>Total to be paid (Applied Money from Wallet) - <s> {{item.productName.price}} /- </s> &nbsp; {{userHaveToPay}} /- </div> <br> <br>
+            <center>
+                <div>
+                    <button type="submit" class="text-white py-2 px-4 rounded-md focus:outline-none" style="background-color: #333;" onmouseover="this.style.backgroundColor='#555'" onmouseout="this.style.backgroundColor='#333'">Place your Order</button>
+                </div>
+            </center>
+        </form>
+    </div>
+
+    <footer>
+        <div class="contact-info">
+            <p>Email: electro@gmail.com</p>
+            <p>Phone: +91 123-456-7890</p>
+            <p>Address: Thiruvananthapuram, Kerala , India</p>
+        </div>
+        <div class="quick-links">
+            <a href="#">About Us</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <!-- Add social media icons and links here -->
+        </div>
+    </footer>
+
+    <script src="" async defer></script>
+</body>
+</html>

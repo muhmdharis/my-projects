@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Buy Page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include Tailwind CSS styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body, h1, h2, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 0.8cm;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        nav a:hover{
+            color: #555;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-info, .quick-links, .social-media {
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if u.first_name == 'admin'  %}
+                <li><a href="{% url 'verify' %}">Verify</a></li>
+                {% endif %}
+                <li><a href="{% url 'buy' %}">Buy</a></li>
+                {% if u.first_name == 'shop' %}
+                <li><a href="{% url 'sell' %}">Sell</a></li>
+                {% endif %}
+                <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                <li><a href="{% url 'chat' %}">Help</a></li>
+                {% if u.username == 'admin' %}
+                <li><a href="{% url 'ord'  %}">Track Orders</a> </li>
+                <li><a href="{% url 'de' %}">Delete</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+   <div class="container mx-auto mt-10">
+    <form method="GET" action="{% url 'buy' %}" class="mb-6 flex flex-wrap">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search products..." class="border p-2 rounded-md w-full md:w-1/2">
+        <select name="filter" class="border p-2 rounded-md mt-2 md:mt-0 md:ml-2">
+            <option value="">Filter By</option>
+            <option value="price_low_high" {% if filter_type == 'price_low_high' %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_high_low" {% if filter_type == 'price_high_low' %}selected{% endif %}>Price: High to Low</option>
+            <option value="alphabetical" {% if filter_type == 'alphabetical' %}selected{% endif %}>Alphabetical</option>
+        </select>
+        <button type="submit" class="bg-blue-500 text-white p-2 rounded-md mt-2 md:mt-0 md:ml-2">Search</button>
+    </form>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for product in n %}
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <img src="{{ product.img.url }}" alt="{{ product.name }}" class="w-full h-48 object-cover mb-4 rounded-md">
+                <h2 class="text-xl font-semibold mb-2">{{ product.name }}</h2>
+                <h3 class="text-lg font-medium text-gray-600 mb-2">{{ product.model }}</h3>
+                <p class="text-gray-700 mb-4">{{ product.price }}</p>
+                <a href="{% url 'b' id=product.id %}" class="text-blue-500 hover:underline">View Details</a>
+                {% if u.first_name == 'admin'  %}
+               <a href="{% url 'deleteProduct' id=product.id %}" 
+                style="display: inline-block; background-color: #333; color: white; padding: 10px 20px; border-radius: 5px; text-align: center; text-decoration: none;">
+                Delete
+                </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+    <footer>
+        <div class="contact-info">
+            <p>Email: electro@gmail.com</p>
+            <p>Phone: +91 123-456-7890</p>
+            <p>Address: Thiruvananthapuram, Kerala , India</p>
+        </div>
+        <div class="quick-links">
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <!-- Add social media icons and links here -->
+        </div>
+    </footer>
+    <script src="" async defer></script>
+</body>
+</html>

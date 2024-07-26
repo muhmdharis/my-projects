@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Wallet</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include Tailwind CSS styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        nav a:hover{
+            color: red;
+        }
+        h2 {
+            margin-top: 0.2cm;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-info, .quick-links, .social-media {
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans flex flex-col min-h-screen">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if u.first_name == 'admin' %}
+                <li><a href="{% url 'verify' %}">Verify</a></li>
+                {% endif %}
+                <li><a href="{% url 'buy' %}">Buy</a></li>
+                {% if u.first_name == 'shop' %}
+                <li><a href="{% url 'sell' %}">Sell</a></li>
+                {% endif %}
+                <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                <li><a href="{% url 'chat' %}">Help</a></li>
+                {% if u.username == 'admin' %}
+                <li><a href="{% url 'ord' %}">Track Orders</a></li>
+                <li><a href="{% url 'de' %}">Delete</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto flex-1 p-4">
+        <h2 class="text-4xl font-semibold mb-3 p-6">Wallet</h2>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <p class="text-lg font-bold">Total Amount: {{ wallet.totalAmount }} /-</p>
+            {% if u.first_name == 'admin' %}
+            <div class="mt-4">
+                {% comment %}
+                <form method="post" class="flex space-x-4">
+                    {% csrf_token %}
+                    <input type="number" name="withdraw" placeholder="Amount" class="p-2 border rounded">
+                    <input type="submit" value="Withdraw" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700">
+                </form>
+                {% endcomment %}
+            </div>
+            {% endif %}
+            {% if u.first_name == 'admin' %}
+            <div class="mt-4 overflow-auto border-2 border-black p-4 rounded-lg h-96">
+                {% for history in historys %}
+                <p><strong>{{ history.user.username }}</strong> took premium subscription on <strong>{{ history.startDate }}</strong></p>
+                {% endfor %}
+                {% else %}
+                {% for history in Userhistorys %}
+                <p><strong>You</strong> Exchanged <strong>{{ history.Exchangeitem.name }}</strong> on <strong>{{ history.exchangeDate }}</strong> for <strong>{{ history.exchangeRate }}</strong></p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <div>
+            <div>
+                <p>Email: electro@gmail.com</p>
+                <p>Phone: +91 123-456-7890</p>
+                <p>Address: Thiruvananthapuram, Kerala, India</p>
+            </div>
+            <div class="quick-links flex justify-center space-x-6">
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

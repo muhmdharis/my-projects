@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        nav a:hover{
+            color: red;
+        }
+        .head {
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+        }
+        section {
+            max-width: 600px;
+            margin: 20px auto;
+            margin-top: 0.8cm;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-info, .quick-links, .social-media {
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if u.first_name == 'admin'  %}
+                <li><a href="{% url 'verify' %}">Verify</a></li>
+                {% endif %}
+                <li><a href="{% url 'buy' %}">Buy</a></li>
+                {% if u.first_name == 'shop' %}
+                <li><a href="{% url 'sell' %}">Sell</a></li>
+                {% endif %}
+                <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                <li><a href="{% url 'chat' %}">Help</a></li>
+                {% if u.username == 'admin' %}
+                <li><a href="{% url 'ord'  %}">Track Orders</a> </li>
+                <li><a href="{% url 'de' %}">Delete</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="head">
+        <h1>Your Order Has Been Placed</h1>
+    </div>
+
+    <section>
+        <h2>Thank you for placing your order with us.</h2>
+        <p>Continue Shopping With Us.</p>
+    </section>
+
+    <footer>
+        <div class="contact-info">
+            <p>Email: electro@gmail.com</p>
+            <p>Phone: +91 123-456-7890</p>
+            <p>Address: Thiruvananthapuram, Kerala , India</p>
+        </div>
+        <div class="quick-links">
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <!-- Add social media icons and links here -->
+        </div>
+    </footer>
+
+</body>
+</html>

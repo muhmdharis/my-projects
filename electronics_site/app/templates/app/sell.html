@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Product</title>
+    <!-- Include Tailwind CSS styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body, h1, h2, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 0.8cm;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        nav a:hover{
+            color: red;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-info, .quick-links, .social-media {
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if u.first_name == 'admin'  %}
+                <li><a href="{% url 'verify' %}">Verify</a></li>
+                {% endif %}
+                <li><a href="{% url 'buy' %}">Buy</a></li>
+                {% if u.first_name == 'shop' %}
+                <li><a href="{% url 'sell' %}">Sell</a></li>
+                {% endif %}
+                <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                <li><a href="{% url 'chat' %}">Help</a></li>
+                {% if u.username == 'admin' %}
+                <li><a href="{% url 'ord'  %}">Track Orders</a> </li>
+                <li><a href="{% url 'de' %}">Delete</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="max-w-md mx-auto bg-white p-8 rounded-md shadow-md">
+        <h2 class="text-2xl font-semibold mb-6">Sell Your Product</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-600">Product Name:</label>
+                <input type="text" id="name" name="name"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="model" class="block text-sm font-medium text-gray-600">Product Model:</label>
+                <input type="text" id="model" name="model"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-600">Email:</label>
+                <input type="email" id="email" name="email"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="description" class="block text-sm font-medium text-gray-600">Price:</label>
+                <textarea id="description" name="discription"
+                    class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                    required></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="block text-sm font-medium text-gray-600">Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+            </div> <br>
+
+            <center>
+                <button type="submit"
+                    class="text-white py-2 px-4 rounded-md focus:outline-none" style="background-color: #333;" onmouseover="this.style.backgroundColor='#555'" onmouseout="this.style.backgroundColor='#333'">Sell</button>
+            </center>
+        </form>
+    </div>
+    <footer>
+        <div class="contact-info">
+            <p>Email: electro@gmail.com</p>
+            <p>Phone: +91 123-456-7890</p>
+            <p>Address: Thiruvananthapuram, Kerala , India</p>
+        </div>
+        <div class="quick-links">
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <!-- Add social media icons and links here -->
+        </div>
+    </footer>
+
+</body>
+</html>

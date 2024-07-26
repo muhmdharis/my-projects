@@ -1,0 +1,185 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cart Page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include Tailwind CSS styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        nav a:hover{
+            color: red;
+        }
+        .head {
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+            font-size: xx-large;
+            font-weight: 600;
+        }
+        section {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            text-align: right;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .contact-info, .quick-links, .social-media {
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+
+    <div>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if u.first_name == 'admin'  %}
+                    <li><a href="{% url 'verify' %}">Verify</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'buy' %}">Buy</a></li>
+                    {% if u.first_name == 'shop' %}
+                    <li><a href="{% url 'sell' %}">Sell</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                    <li><a href="{% url 'chat' %}">Help</a></li>
+                    {% if u.username == 'admin' %}
+                    <li><a href="{% url 'ord'  %}">Track Orders</a> </li>
+                    <li><a href="{% url 'de' %}">Delete</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="head">
+            <h1>Your Shopping Cart</h1>
+        </div>
+
+        <div class="bg-white p-10 rounded-lg shadow-md">
+            {% if n %}
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Model</th>
+                            <th>Price</th>
+                            <th> </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                        {% for item in n %}
+                        <tbody>
+                            <tr>
+                                <ul>
+                                    <li class="text-gray-800 mb-2">
+                                        <td>{{ item.productName.name }}</td>
+                                        <td>{{ item.productName.model }}</td>
+                                        <td>{{ item.productName.price }}</td>
+                                        <td><a href="{% url 'o' item.id %}" class="text-white py-2 px-4 rounded-md focus:outline-none" style="background-color:#333;" onmouseover="this.style.backgroundColor='#555'" onmouseout="this.style.backgroundColor='#333'">Buy</a></td>
+                                        <td><a href="{% url 'dc' item.id %}" class="text-white py-2 px-4 rounded-md focus:outline-none" style="background-color:#333;" onmouseover="this.style.backgroundColor='#555'" onmouseout="this.style.backgroundColor='#333'">Delete from Cart </a></td>
+                                    </li>
+                                </ul>
+                            </tr>
+                        </tbody>
+                            <!-- Add more fields as needed -->
+                        {% endfor %}
+                </table>
+            </section>
+            {% else %}
+                <p class="text-gray-600">Your cart is empty.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <div class="contact-info">
+            <p>Email: electro@gmail.com</p>
+            <p>Phone: +91 123-456-7890</p>
+            <p>Address: Thiruvananthapuram, Kerala , India</p>
+        </div>
+        <div class="quick-links">
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <!-- Add social media icons and links here -->
+        </div>
+    </footer>
+
+    <script src="" async defer></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 550;
+        }
+        nav a:hover{
+            color: red;
+        }
+        .head {
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+            margin-bottom: 0.8cm;
+        }
+
+        section {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 0.8cm;
+            border: 2px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-info, .quick-links, .social-media {
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if u.first_name == 'admin'  %}
+                <li><a href="{% url 'verify' %}">Verify</a></li>
+                {% endif %}
+                <li><a href="{% url 'buy' %}">Buy</a></li>
+                {% if u.first_name == 'shop' %}
+                <li><a href="{% url 'sell' %}">Sell</a></li>
+                {% endif %}
+                <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                <li><a href="{% url 'chat' %}">Help</a></li>
+                {% if u.username == 'admin' %}
+                <li><a href="{% url 'ord'  %}">Track Orders</a> </li>
+                <li><a href="{% url 'de' %}">Delete</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="head">
+        <h1>About Us</h1>
+    </div>
+
+    <section>
+        <h2>Buy Electronics from Electro Platform</h2>
+        <p style="line-height: 1.6; color: #666;">Bid farewell to spending long hours searching for your preferred electronic products. Just log on to Electro Platform, the best online electronics store in Kerala, to discover a fascinating world of hassle-free shopping. Here, you can shop from the comfort of your home & get it delivered to your doorstep at lightning-fast speed.</p>
+        <p style="line-height: 1.6; color: #666;">Whether you are looking for mobiles, tablets, televisions, washing machines, air conditioners, kitchen appliances, or accessories, rest assured, you will find them at Electro Platform at the best price in Kerala. Buy smartphones and all other electronics online and save your precious time from the most trusted digital site in Kerala.</p>
+        <p style="line-height: 1.6; color: #666;">Browse through our vast collections and pick the product of your choice at the most affordable price. From high-end products and top brands to affordable options, our varied collections ensure that there is something for everyone and every budget.</p>
+        <p style="line-height: 1.6; color: #666;">Now, you don't need to be living in metros to purchase the latest electronics. You can access the most extensive assortment of domestic and international products and get them delivered in just a few days, anywhere in the state, by choosing the best online electronics shopping site in Kerala.</p>
+
+        <h2>What Can I Buy From Electro Platform?</h2>
+        <h4>Home Appliances</h4>
+            <p style="line-height: 1.6; color: #666;">Get the best deals & discounts for TVs, ACs, Refrigerators, Washing Machines, and more on Our Site. We stock an assortment of electronics from various brands available at different price points. Choose home appliances from brands such as Lloyd, Voltas, IFB, Whirlpool, Samsung, Sony, and more to get amazing cashback offers.</p>
+        <h4>Kitchen Appliances</h4>
+            <p style="line-height: 1.6; color: #666;">Our wide selection of kitchen appliances can help you find the ideal balance between efficiency and convenience. Modern appliances that streamline your cooking process will improve your culinary experience. Our selection covers all kitchen needs, like choppers, microwave ovens, air fryer, mixer grinder, juicer, blenders, cooking range and more.</p>
+        <h4>Mobile Phones</h4>
+            <p style="line-height: 1.6; color: #666;">Now, you can flaunt the latest Smartphones without burning a hole in your pocket. Choose from our wide-ranging selection of smartphones and get the mobiles of your choice at the best price from our digital site Electro Platform.</p>
+            <p style="line-height: 1.6; color: #666;">Stay connected with family & friends with the mobile phones of top brands, including Apple iPhone, Samsung Mobile, Oppo Mobile, Vivo Mobile, One Plus Mobile, Google Pixel Mobile, Redmi Mobile, Oneplus Mobile, Realme Mobile and more.</p>
+
+        <p style="line-height: 1.6; color: #666;">Customer satisfaction is key to us. So, if the delivered product is not what you expected it to be or doesn't fit you properly, don't worry. Thanks to our easy return policy, you can send the piece back.</p>
+
+        <!-- You can include team member details and images here -->
+
+    </section>
+
+    <footer>
+        <div class="contact-info">
+            <p>Email: electro@gmail.com</p>
+            <p>Phone: +91 123-456-7890</p>
+            <p>Address: Thiruvananthapuram, Kerala , India</p>
+        </div>
+        <div class="quick-links">
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <!-- Add social media icons and links here -->
+        </div>
+    </footer>
+
+</body>
+</html>

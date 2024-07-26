@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Electro Platform</title>
+        <!-- Include Tailwind CSS styles -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+        <style>
+            .form {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                width: 350px;
+                background-color: #fff;
+                border-radius: 20px;
+                padding: 30px 20px;
+                box-shadow: 100px 100px 80px rgba(0, 0, 0, 0.03);
+            }
+
+            .title {
+                color: black;
+                font-weight: bold;
+                text-align: center;
+                font-size: 14px;
+                margin-bottom: 4px;
+            }
+
+            .sub {
+                text-align: center;
+                color: black;
+                font-size: 12px;
+                width: 100%;
+            }
+
+            .sub a {
+                color: rgb(23, 111, 211);
+            }
+
+            .form button {
+                align-self: flex-end;
+            }
+
+            .input,
+            button {
+                border: none;
+                outline: none;
+                width: 100%;
+                padding: 16px 10px;
+                background-color: rgb(247, 243, 243);
+                border-radius: 10px;
+                box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.015), 100px 100px 80px rgba(0, 0, 0, 0.03);
+            }
+
+            button {
+                margin-top: 12px;
+                background-color: #333;
+                color: #fff;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            .input:focus {
+                border: 1px solid #333;
+            }
+
+            #file {
+                display: none;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-100 h-screen flex items-center justify-center">
+        <form action="" method="POST" class="form" id="form">
+            {% csrf_token %}
+            <!-- <div class="font-semibold" style="color: #333">{{msg}}</div> -->
+            <span class="title">Login into your Account</span>
+            <label for="u" class="block text-gray-600 text-sm font-medium mb-1">Username:</label>
+            <input type="text" class="input" placeholder="username" id="u" name="u" />
+
+            <label for="p" class="block text-gray-600 text-sm font-medium mb-1">Password:</label>
+            <input type="password" class="input" placeholder="password" id="p" name="p" />
+
+            <span class="sub"> Doesn't Register? <a href="{% url 'register' %}">Sign Up</a></span>
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden" id="msg_modal">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
+                <div class="flex items-center justify-between p-4 border-b">
+                    <h5 class="text-lg font-semibold">Login Failed</h5>
+                </div>
+                <div class="p-4">
+                    <p id="modal_error_msg"></p>
+                </div>
+                <div class="flex justify-end p-4 border-t">
+                    <button type="button" class="px-4 py-2 bg-blue-300 rounded hover:bg-blue-100" onclick="hideModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+
+        <script>
+            let modal = document.querySelector("#msg_modal");
+
+            function showModal() {
+                modal.classList.remove("hidden");
+            }
+
+            function hideModal() {
+                modal.classList.add("hidden");
+            }
+
+            $("#form").submit((e) => {
+                e.preventDefault();
+                var form = $("#form");
+                var url = form.attr("action");
+                console.log(form.serialize());
+                console.log(form);
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+
+                    success: (res) => {
+                        if (res["status"] == "error") {
+                            showModal();
+                            $("#modal_error_msg").text(res["msg"]);
+                        } else {
+                            window.location = "{% url 'home' %}";
+                        }
+                    },
+                    error: (res) => {
+                        console.log(res);
+                        document.write(res.responseText);
+                    },
+                });
+            });
+        </script>
+    </body>
+</html>

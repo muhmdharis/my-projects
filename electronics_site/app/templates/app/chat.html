@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Chat Page</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Include Tailwind CSS styles -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+        <style>
+            body {
+                font-family: "Arial", sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+            header {
+                background-color: #333;
+                color: #fff;
+                padding: 15px 0;
+                display: flex;
+                justify-content: space-between;
+                justify-content: flex-end;
+                align-items: center;
+            }
+            nav ul {
+                list-style: none;
+                display: flex;
+            }
+
+            nav a {
+                color: #fff;
+                text-decoration: none;
+                margin: 0 15px;
+                font-weight: 500;
+            }
+            nav a:hover {
+                color: red;
+            }
+            .head {
+                background-color: #444;
+                color: #fff;
+                text-align: center;
+                padding: 1em 0;
+                margin-bottom: 0.8cm;
+                font-size: xx-large;
+                font-weight: 600;
+            }
+            footer {
+                background-color: #333;
+                color: #fff;
+                padding: 10px 0;
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            .contact-info,
+            .quick-links,
+            .social-media {
+                margin-bottom: 20px;
+            }
+
+            .quick-links ul {
+                list-style: none;
+            }
+
+            .quick-links a {
+                color: #fff;
+                text-decoration: none;
+                margin: 0 15px;
+            }
+        </style>
+    </head>
+    <body class="font-sans bg-gray-100">
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if u.first_name == 'admin' %}
+                    <li><a href="{% url 'verify' %}">Verify</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'buy' %}">Buy</a></li>
+                    {% if u.first_name == 'shop' %}
+                    <li><a href="{% url 'sell' %}">Sell</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                    <li><a href="{% url 'chat' %}">Help</a></li>
+                    {% if u.username == 'admin' %}
+                    <li><a href="{% url 'ord'  %}">Track Orders</a></li>
+                    <li><a href="{% url 'de' %}">Delete</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="max-w-screen-xl mx-auto">
+            {% if m == 'no obj' %}
+            <!-- User View -->
+
+            <div class="head">
+                <h1>Chat with Admin</h1>
+            </div>
+
+            <div class="bg-white rounded-md p-4 mb-8">
+                {% for i in n %}
+                <div class="mb-4 border-b pb-2">
+                    <span class="text-blue-500 font-semibold">{{ i.user.username }}:</span>
+                    <span class="ml-2">{{ i.message_f }}</span>
+                </div>
+                {% endfor %}
+
+                <form method="post" class="mt-4" id="form">
+                    {% csrf_token %}
+                    <label for="m" class="block text-sm font-medium text-gray-600 mb-2">Message:</label>
+                    <input
+                        type="text"
+                        id="m"
+                        name="m"
+                        class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 mb-4" />
+
+                    <button
+                        type="submit"
+                        class="text-white py-2 px-4 rounded-md focus:outline-none"
+                        style="background-color: #333"
+                        onmouseover="this.style.backgroundColor='#555'"
+                        onmouseout="this.style.backgroundColor='#333'">
+                        Send
+                    </button>
+                </form>
+
+                <div
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden"
+                    id="msg_modal">
+                    <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
+                        <div class="flex items-center justify-between p-4 border-b">
+                            <h5 class="text-lg font-semibold">Support Request Received</h5>
+                            <button
+                                type="button"
+                                class="text-gray-500 hover:text-gray-700"
+                                onclick="hideModal()"
+                                aria-label="Close">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="p-4">
+                            <p>
+                                Thanks for reaching out! We've received your message and our admin team will get back to
+                                you within 24-48 hours. If you need to add more info or have urgent concerns, just reply
+                                here.<br />Thank you for your patience!
+                            </p>
+                        </div>
+                        <div class="flex justify-end p-4 border-t">
+                            <button
+                                type="button"
+                                class="px-4 py-2 bg-blue-300 rounded hover:bg-blue-100"
+                                onclick="hideModal()">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Admin View -->
+
+            <div class="head">
+                <h1>Messages For Admin</h1>
+            </div>
+
+            <div class="bg-white rounded-md p-4 mb-8">
+                <h2 class="text-2xl font-semibold mb-4">Chat Messages</h2>
+                <div class="overflow-y-auto max-h-64 border rounded-md p-4 bg-white">
+                    {% for message in n %}
+                    <div class="mb-2">
+                        <span class="font-semibold" style="color: #333">{{ message.user.username }}:</span>
+                        <span class="ml-2"
+                            >{{ message.message_f }} ->
+                            <a href="{% url 'c' message.user.id %}" class="text-blue-500">Message</a>
+                            <span>|</span>
+                            <a href="{% url 'delete_chat_msg' message.id %}" class="text-blue-500">Delete</a>
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <a href="{% url 'home' %}" style="color: blue"> &nbsp; Go Back</a>
+
+        <footer>
+            <div class="contact-info">
+                <p>Email: electro@gmail.com</p>
+                <p>Phone: +91 123-456-7890</p>
+                <p>Address: Thiruvananthapuram, Kerala , India</p>
+            </div>
+            <div class="quick-links">
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="social-media">
+                <!-- Add social media icons and links here -->
+            </div>
+        </footer>
+
+        <script>
+            let modal = document.querySelector("#msg_modal");
+            let form = document.querySelector("#form");
+
+            function showModal() {
+                modal.classList.remove("hidden");
+            }
+
+            function hideModal() {
+                modal.classList.add("hidden");
+                form.submit();
+            }
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                showModal();
+            });
+        </script>
+    </body>
+</html>

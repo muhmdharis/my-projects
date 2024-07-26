@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Chat Page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include Tailwind CSS styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        nav a:hover{
+            color: red;
+        }
+        .head {
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+            margin-bottom: 0.8cm;
+            font-size: xx-large;
+            font-weight: 600;
+        }
+        h2 {
+            margin-top: 0.5cm;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-info, .quick-links, .social-media {
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if u.first_name == 'admin'  %}
+                <li><a href="{% url 'verify' %}">Verify</a></li>
+                {% endif %}
+                <li><a href="{% url 'buy' %}">Buy</a></li>
+                {% if u.first_name == 'shop' %}
+                <li><a href="{% url 'sell' %}">Sell</a></li>
+                {% endif %}
+                <li><a href="{% url 'exchange' %}">Exchange</a></li>
+                <li><a href="{% url 'chat' %}">Help</a></li>
+                {% if u.username == 'admin' %}
+                <li><a href="{% url 'ord'  %}">Track Orders</a> </li>
+                <li><a href="{% url 'de' %}">Delete</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="max-w-screen-xl mx-auto p-8">
+        <!-- Display Chat Messages -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Chat Messages</h2>
+            <div class="overflow-y-auto max-h-64 border rounded-md p-4 bg-white">
+                {% for message in n %}
+                    <div class="mb-2">
+                        <span class="font-semibold">{{ message.user.username }}:</span>
+                        <span>{{ message.message_f }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Chat Form -->
+        <form action="" method="post" class="bg-white p-4 rounded-md shadow-md">
+            {% csrf_token %}
+            
+            <label for="m" class="block text-sm font-medium text-gray-600 mb-2">Message:</label>
+            <input type="text" id="m" name="m" class="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 mb-4">
+
+            <button type="submit" class="text-white py-2 px-4 rounded-md focus:outline-none" style="background-color: #333;" onmouseover="this.style.backgroundColor='#555'" onmouseout="this.style.backgroundColor='#333'">Send</button>
+        </form>
+    </div>
+
+    <footer>
+        <div class="contact-info">
+            <p>Email: electro@gmail.com</p>
+            <p>Phone: +91 123-456-7890</p>
+            <p>Address: Thiruvananthapuram, Kerala , India</p>
+        </div>
+        <div class="quick-links">
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <!-- Add social media icons and links here -->
+        </div>
+    </footer>
+    
+    <script src="" async defer></script>
+</body>
+</html>
